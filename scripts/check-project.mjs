@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const ignored = new Set(['.git', 'node_modules', 'vendor']);
+const ignored = new Set(['.git', 'node_modules', 'vendor', 'dist']);
 async function walk(directory) {
   const files = [];
 

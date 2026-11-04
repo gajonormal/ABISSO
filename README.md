@@ -19,6 +19,8 @@ From fish to other creatures, every aquarium brings together inhabitants, plants
   <sub>Aquarium generated with the seed <code>recife</code></sub>
 </p>
 
+[Explore Abisso online ↗](https://gajonormal.github.io/ABISSO/)
+
 ## One starting point, a whole aquarium
 
 | Starting point | What happens                                                                                                                 |
@@ -64,8 +66,8 @@ Adjust the file path and height for your page. The host site must allow [iframe 
 **Node.js 22 or later** needed and a browser with WebGL support. There is no build step; Three.js is already included in the repository.
 
 ```sh
-git clone https://github.com/gajonormal/ABISSOapp.git
-cd ABISSOapp
+git clone https://github.com/gajonormal/ABISSO.git
+cd ABISSO
 npm start
 ```
 
@@ -94,6 +96,18 @@ The site does not need a backend to generate aquariums. Collections are stored i
 | `assets/`                                 | Visual identity, aquarium preview, and contribution map.      |
 | `scripts/`                                | Project checks and asset generation.                          |
 | `server.mjs`                              | Static server for local development.                          |
+
+## Publishing
+
+The public site is hosted at **[gajonormal.github.io/ABISSO](https://gajonormal.github.io/ABISSO/)** using GitHub Pages. The repository remains private; visitors can access the website without a GitHub account.
+
+Pushing to `main` automatically runs the [deployment workflow](.github/workflows/deploy-pages.yml). Successful contribution-map updates also trigger a fresh deployment. Publication can be started manually from **Actions → Deploy site to GitHub Pages → Run workflow**.
+
+```sh
+npm run build
+```
+
+This prepares `dist/` with only the public HTML, CSS, JavaScript, engine, and assets. Tests, development tools, repository metadata, and the local server are excluded. The generated folder is ignored by Git and can also be hosted by another static hosting provider.
 
 ## Development
 

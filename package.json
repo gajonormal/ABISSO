@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
+    "build": "node scripts/build-site.mjs",
     "update:contributions": "node scripts/update-contributions.mjs",
     "test": "node --test --test-concurrency=1 tests/test-*.mjs",
     "format": "prettier --write .",
