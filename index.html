@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta
+      name="description"
+      content="ABISSO"
+    />
+    <title>ABISSO</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <style>
+      
+      html {
+        background: #050505;
+      }
+
+      #scene-loader {
+        display: grid;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 650ms ease,
+          visibility 0s linear 650ms;
+      }
+
+      html[data-scene-loading] #scene-loader {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: none;
+      }
+
+      .scene-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        place-content: center;
+        justify-items: center;
+        gap: 26px;
+        background: #050505;
+        color: #9b9da0;
+      }
+
+      .scene-loader > * {
+        transform: translateY(-8px);
+        transition: transform 650ms ease;
+      }
+
+      html[data-scene-loading] .scene-loader > * {
+        transform: translateY(0);
+      }
+
+      .scene-loader img {
+        width: min(200px, 48vw);
+        height: auto;
+        image-rendering: pixelated;
+      }
+
+      .scene-loader-pixels {
+        display: flex;
+        gap: 7px;
+        height: 5px;
+      }
+
+      .scene-loader-pixels span {
+        width: 5px;
+        height: 5px;
+        background: #b9babc;
+        animation: loading-pixel 1.2s steps(1) infinite;
+      }
+
+      .scene-loader-pixels span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .scene-loader-pixels span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes loading-pixel {
+        0%,
+        65% {
+          opacity: 0.25;
+        }
+        25%,
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #scene-loader,
+        .scene-loader > * {
+          transition: none;
+          transform: none;
+        }
+        .scene-loader-pixels span {
+          animation: none;
+        }
+      }
+
+    </style>
+    <script>
+      document.documentElement.setAttribute('data-scene-loading', '');
+      window.sceneLoadingFallback = setTimeout(
+        () => document.documentElement.removeAttribute('data-scene-loading'),
+        8000,
+      );
+    </script>
+    <link rel="modulepreload" href="environment.js" />
+    <link rel="modulepreload" href="abisso.js" />
+    <link rel="modulepreload" href="engine/vendor/three.module.js" />
+    <link rel="modulepreload" href="engine/entrance-environment.js" />
+    <link rel="modulepreload" href="engine/landing-school.js" />
+    <link rel="modulepreload" href="engine/fish.js" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="environment.css" />
+    <link rel="stylesheet" href="controls.css" />
+    <link rel="stylesheet" href="abisso.css" />
+  </head>
+  <body class="abisso-page" id="page">
+    <div
+      id="scene-loader"
+      class="scene-loader"
+      role="status"
+      aria-label="Loading"
+      aria-live="polite"
+    >
+      <img src="assets/abisso.svg" alt="Abisso" width="26" height="7" />
+
+      <div class="scene-loader-pixels" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div
+      class="fishing-scrollbar"
+      role="scrollbar"
+      tabindex="0"
+      aria-label="Scroll page"
+      aria-controls="page"
+      aria-orientation="vertical"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+    >
+      <span class="fishing-line" aria-hidden="true"></span>
+      <svg
+        class="fishing-hook"
+        aria-hidden="true"
+        viewBox="0 0 18 32"
+        fill="currentColor"
+        shape-rendering="crispEdges"
+      >
+        <path fill-rule="evenodd" d="M11 0h6v6h-6V0Zm2 2v2h2V2h-2Z" />
+        <path
+          d="M13 6h2v14h-2zM15 20h2v10h-2zM7 30h8v2H7zM5 28h2v2H5zM3 14h2v14H3zM5 18h2v2H5zM7 20h2v2H7z"
+        />
+      </svg>
+    </div>
+    <canvas id="sky-canvas" aria-hidden="true"></canvas>
+    <main id="content">
+      <section class="abisso-hero" id="inicio" aria-labelledby="abisso-title">
+        <header class="abisso-heading">
+          <h1 id="abisso-title">
+            <img src="assets/abisso.svg" alt="abisso" width="26" height="7" />
+          </h1>
+        </header>
+        <div class="orbit-stage" aria-label="Grupo de peixes a nadar á volta do botão de upload">
+          <form id="create-creature" class="creature-maker">
+            <button
+              class="image-summon"
+              id="image-summon"
+              type="button"
+              aria-label="Generate a creature from an image"
+            >
+              <span class="scanner-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <svg
+                class="scanner-icon"
+                aria-hidden="true"
+                viewBox="0 0 32 32"
+                fill="currentColor"
+                shape-rendering="crispEdges"
+              >
+                <path fill-rule="evenodd" d="M3 5h26v22H3V5Zm3 3v16h20V8H6Z" />
+                <path d="M8 20h3v-3h3v-3h3v3h3v3h4v3H8v-3Zm12-9h3v3h-3v-3Z" />
+              </svg>
+            </button>
+            <input
+              id="creature-image"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              hidden
+            />
+            <div class="summon-word-row">
+              <label class="sr-only" for="creature-word">A name or a word</label>
+              <div class="word-input-frame">
+                <input
+                  id="creature-word"
+                  name="word"
+                  placeholder="who lives in there?"
+                  maxlength="64"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+              <button class="summon-submit corner-control" type="submit">
+                CREATE <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <button class="random-summon" id="random-summon" type="button">find a stranger</button>
+            <p id="creation-status" class="creation-status" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+    <div id="ocean-depth">
+      <canvas id="bubbles-canvas" aria-hidden="true"></canvas>
+      <div id="reef-container">
+        <div class="ocean-signature">
+          <img src="assets/bernardo-maia.svg" alt="bernardo maia" width="57" height="7" />
+          <a
+            class="ocean-contributions"
+            href="https://github.com/gajonormal"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View gajonormal’s contributions on GitHub"
+          >
+            <img
+              src="assets/github-contributions.svg"
+              alt="GitHub contribution map for the past 12 months"
+              width="686"
+              height="88"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="landing-boot.js"></script>
+  </body>
+</html>

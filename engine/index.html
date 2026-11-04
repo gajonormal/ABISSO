@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta
+      name="description"
+      content="Generate procedural marine creatures and customize them"
+    />
+    <title>ABISSO</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sheet.css" />
+    <link rel="stylesheet" href="../controls.css" />
+    <link rel="stylesheet" href="editor-theme.css" />
+  </head>
+  <body class="abisso-editor" data-view="aquarium">
+    <div
+      id="aquarium-stage"
+      hidden
+      aria-label="Procedural aquarium. Drag to rotate, scroll to zoom and click a creature to edit it."
+    ></div>
+    <button id="back" class="corner">← BACK</button>
+    <p id="mode-hint" class="mode-hint">
+      Drag to rotate, scroll to zoom and click a creature to edit it.
+    </p>
+    <div id="bottom-bar" class="bottom-bar">
+      <button data-action="aquarium">RANDOM</button>
+      <button id="menu-toggle" aria-label="Customize" aria-expanded="false">CUSTOMIZE</button>
+    </div>
+    <aside id="inspector" aria-label="Creature builder" hidden>
+      <div class="panel-heading">
+        <strong>CUSTOMIZE</strong
+        ><button id="close-menu" aria-label="Close customization">×</button>
+      </div>
+      <nav class="editor-tabs" aria-label="Editor sections">
+        <button data-panel="creature" aria-pressed="true">CREATURE</button
+        ><button data-panel="aquarium" aria-pressed="false">AQUARIUM</button
+        ><button data-panel="create" aria-pressed="false">CREATE</button
+        ><button data-panel="save" aria-pressed="false">SAVE &amp; SHARE</button>
+      </nav>
+      <label class="resident-field" for="tank-resident"
+        >Selected creature<select id="tank-resident"></select
+      ></label>
+      <section id="panel-creature" class="editor-panel">
+        <div class="quick-controls">
+
+          <label class="name-field" for="creature-name-input"
+            >Creature name<input id="creature-name-input" maxlength="30" autocomplete="off"
+          /></label>
+          
+          <div class="button-row"><button id="reset">RESET CREATURE</button></div>
+          <p class="micro">Changing species generates a new anatomy.</p>
+        </div>
+        <div id="gene-controls"></div>
+      </section>
+      <section id="panel-aquarium" class="editor-panel" hidden>
+        <section id="habitat-controls"></section>
+        <div class="gene-fields">
+          <button id="tank-follow" aria-pressed="false">FOLLOW SELECTED CREATURE</button>
+        </div>
+      </section>
+      <section id="panel-create" class="editor-panel" hidden>
+        <div class="gene-fields">
+          <p class="micro">Replace the selected creature while keeping your aquarium.</p>
+          <button data-action="another">RANDOM CREATURE</button>
+          <form id="word-form">
+            <label class="name-field" for="specimen-seed"
+              >Generate from a word<input
+                id="specimen-seed"
+                maxlength="64"
+                required
+                autocomplete="off" /></label
+            ><button type="submit">GENERATE</button>
+          </form>
+          <div class="section-divider"></div>
+          <p class="micro">Generate a new scene and all its inhabitants.</p>
+          <button data-action="aquarium">GENERATE NEW AQUARIUM</button>
+        </div>
+      </section>
+      <section id="panel-save" class="editor-panel" hidden>
+        <div class="gene-fields">
+          <button id="save-creature">SAVE CREATURE TO COLLECTION</button
+          ><button id="save-aquarium">SAVE AQUARIUM FILE</button
+          ><button id="load-file">LOAD FILE</button
+          ><input id="aquarium-file" type="file" accept="application/json,.json" hidden /><button
+            data-action="share"
+          >
+            COPY SHARE LINK</button
+          ><button id="tank-picture">SAVE AQUARIUM IMAGE</button>
+        </div>
+        <details class="gene-section collection-section">
+          <summary>COLLECTION <span id="saved-count">0</span></summary>
+          <div class="gene-fields">
+            <div id="saved-list"></div>
+            <div class="button-row">
+              <button id="export-collection">EXPORT COLLECTION</button
+              ><button id="import-collection">IMPORT COLLECTION</button>
+            </div>
+            <input type="file" id="collection-file" accept="application/json,.json" hidden />
+          </div>
+        </details>
+        <details class="gene-section">
+          <summary>ADVANCED</summary>
+          <div class="gene-fields"><button data-action="code">EDIT JSON</button></div>
+        </details>
+      </section>
+      <small class="build-note">ABISSO · procedural marine life</small>
+    </aside>
+
+    <div id="tank-tools" hidden>
+      <button id="tank-zoom-out" aria-label="Zoom out">−</button
+      ><button id="tank-zoom-in" aria-label="Zoom in">+</button
+      ><button id="tank-pause" aria-pressed="false">PAUSE</button
+      ><button id="tank-feed">FEED</button>
+    </div>
+    <dialog id="code-dialog">
+      <div class="dialog-top">
+        <strong>CREATURE CODE</strong><button data-close aria-label="Close JSON">×</button>
+      </div>
+      <textarea id="gene-json" aria-label="Creature JSON" spellcheck="false"></textarea>
+      <div class="button-row">
+        <button id="copy-json">COPY</button><button id="download-json">DOWNLOAD</button
+        ><button id="load-json" class="primary">LOAD</button>
+      </div>
+      <p class="micro">Paste an ABISSO creature or aquarium JSON to load it.</p>
+    </dialog>
+    <div id="download-ready" hidden>
+      <a id="download-link" download>DOWNLOAD FILE ↓</a
+      ><button id="dismiss-download" aria-label="Dismiss download">×</button>
+    </div>
+    <div id="share-ready" hidden>
+      <a id="share-link" target="_blank" rel="noopener">OPEN SHARED LINK ↗</a
+      ><button id="dismiss-share" aria-label="Close shared link">×</button>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="sheet.js"></script>
+  </body>
+</html>

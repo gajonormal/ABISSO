@@ -1,0 +1,14 @@
+{
+  "entry": [
+    "landing-boot.js!",
+    "abisso.js!",
+    "environment.js!",
+    "engine/sheet.js!",
+    "server.mjs!",
+    "scripts/*.mjs!"
+  ],
+  "project": ["*.js!", "*.mjs!", "engine/**/*.js!", "scripts/*.mjs!"],
+  "ignore": ["engine/vendor/**"],
+  "ignoreExportsUsedInFile": true,
+  "include": ["files", "exports", "duplicates", "unresolved"]
+}

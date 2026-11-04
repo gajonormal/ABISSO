@@ -1,0 +1,68 @@
+:root {
+  --control-ink: #b9babc;
+  --control-surface: rgb(0 0 0 / 98%);
+  --control-stroke: 4px;
+}
+
+.corner-control {
+  --corner-length: 16px;
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  background: var(--control-surface);
+  color: var(--control-ink);
+}
+
+.corner-control::before,
+.abisso-editor button::before,
+.abisso-editor .tools #old::before,
+.abisso-editor #download-link::before,
+.abisso-editor #share-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: inset 180ms ease-out;
+  background:
+    linear-gradient(var(--control-ink) 0 0) top left / var(--corner-length, 12px)
+      var(--control-stroke),
+    linear-gradient(var(--control-ink) 0 0) top right / var(--corner-length, 12px)
+      var(--control-stroke),
+    linear-gradient(var(--control-ink) 0 0) bottom left / var(--corner-length, 12px)
+      var(--control-stroke),
+    linear-gradient(var(--control-ink) 0 0) bottom right / var(--corner-length, 12px)
+      var(--control-stroke),
+    linear-gradient(var(--control-ink) 0 0) top left / var(--control-stroke)
+      var(--corner-length, 12px),
+    linear-gradient(var(--control-ink) 0 0) top right / var(--control-stroke)
+      var(--corner-length, 12px),
+    linear-gradient(var(--control-ink) 0 0) bottom left / var(--control-stroke)
+      var(--corner-length, 12px),
+    linear-gradient(var(--control-ink) 0 0) bottom right / var(--control-stroke)
+      var(--corner-length, 12px);
+  background-repeat: no-repeat;
+}
+
+.corner-control:is(:hover, :focus-visible, :focus-within)::before,
+.abisso-editor button:not(:disabled):is(:hover, :focus-visible)::before,
+.abisso-editor .tools #old:is(:hover, :focus-visible)::before,
+.abisso-editor #download-link:is(:hover, :focus-visible)::before,
+.abisso-editor #share-link:is(:hover, :focus-visible)::before {
+  inset: -5px;
+}
+
+.corner-control:focus-visible,
+.abisso-editor button:focus-visible {
+  outline: 1px solid var(--control-ink);
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corner-control::before,
+  .abisso-editor button::before,
+  .abisso-editor .tools #old::before,
+  .abisso-editor #download-link::before,
+  .abisso-editor #share-link::before {
+    transition: none;
+  }
+}

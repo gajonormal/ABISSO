@@ -1,0 +1,479 @@
+:root {
+  --green: #b9babc;
+  --white: #ececea;
+  --line: #303034;
+  background: #050505;
+  color: #a1a3a6;
+}
+
+body.abisso-editor {
+  --control-stroke: 2px;
+  background: #050505;
+}
+
+body.abisso-editor button,
+body.abisso-editor #download-link,
+body.abisso-editor #share-link {
+  --corner-length: 12px;
+  position: relative;
+  border: 2px solid #55585e;
+  border-radius: 0;
+  background: var(--control-surface);
+  color: var(--control-ink);
+}
+
+body.abisso-editor button:hover,
+body.abisso-editor button.primary:hover {
+  background: var(--control-surface);
+  color: #ededeb;
+}
+
+body.abisso-editor button:active {
+  transform: none;
+}
+
+body.abisso-editor button[aria-pressed='true'] {
+  --control-ink: #f0f0ed;
+  color: #f0f0ed;
+}
+
+body.abisso-editor button:disabled {
+  opacity: 0.35;
+}
+
+body.abisso-editor input:not([type='range']):not([type='color']),
+body.abisso-editor select,
+body.abisso-editor textarea {
+  border: var(--control-stroke) solid var(--control-ink);
+  background: var(--control-surface);
+  color: #e2e2df;
+  border-radius: 0;
+}
+
+body.abisso-editor input:focus-visible,
+body.abisso-editor select:focus-visible,
+body.abisso-editor textarea:focus-visible {
+  outline: 1px solid var(--control-ink);
+  outline-offset: 3px;
+}
+
+body.abisso-editor input::placeholder {
+  color: #707378;
+}
+
+body.abisso-editor #inspector {
+  width: 330px;
+  background: #050505fa;
+  border-left: 2px solid #55585e;
+  scrollbar-color: #6d6f73 #050505;
+}
+
+body.abisso-editor .button-row button {
+  --corner-length: 9px;
+}
+
+body.abisso-editor .quick-controls {
+  padding: 16px 18px;
+}
+
+body.abisso-editor .button-row {
+  gap: 12px;
+  margin-top: 14px;
+}
+
+body.abisso-editor .mode-hint {
+  background: #000e;
+  color: #92969c;
+  border: 0;
+  line-height: 1.7;
+}
+
+body.abisso-editor .bottom-bar {
+  gap: 14px;
+}
+
+body.abisso-editor #tank-tools {
+  gap: 13px;
+  bottom: 84px;
+}
+
+body.abisso-editor #tank-tools button {
+  --corner-length: 9px;
+  padding: 9px 11px;
+}
+
+body.abisso-editor .gene-section {
+  border-top-color: #27272b;
+}
+
+body.abisso-editor .gene-section summary {
+  color: #b9babc;
+  padding: 18px;
+  letter-spacing: 2px;
+}
+
+body.abisso-editor .gene-fields {
+  padding: 2px 18px 18px;
+}
+
+body.abisso-editor .gene-range {
+  grid-template-columns: 82px minmax(0, 1fr) 32px;
+}
+
+body.abisso-editor .gene-range input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #44464b;
+}
+
+body.abisso-editor .gene-range input::-webkit-slider-thumb {
+  width: 8px;
+  height: 16px;
+  margin-top: -6px;
+  background: #b9babc;
+}
+
+body.abisso-editor .gene-range input::-moz-range-track {
+  height: 4px;
+  background: #44464b;
+}
+
+body.abisso-editor .gene-range input::-moz-range-thumb {
+  width: 8px;
+  height: 16px;
+  background: #b9babc;
+}
+
+body.abisso-editor .swatches {
+  gap: 8px;
+}
+
+body.abisso-editor .swatches button {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6c6e73;
+}
+
+body.abisso-editor .swatches button::before {
+  display: none;
+}
+
+body.abisso-editor .swatches button:hover {
+  border-color: #eee;
+  transform: none;
+}
+
+body.abisso-editor .swatches input {
+  border: 2px solid #6c6e73;
+}
+
+body.abisso-editor dialog {
+  border: 2px solid #8e9095;
+  background: #050505;
+  color: #aaaeb2;
+  padding: 24px;
+}
+
+body.abisso-editor dialog::backdrop {
+  background: #000c;
+}
+
+body.abisso-editor .dialog-top {
+  gap: 20px;
+}
+
+body.abisso-editor .dialog-top button {
+  --corner-length: 8px;
+  padding: 8px 12px;
+}
+
+body.abisso-editor #share-ready,
+body.abisso-editor #download-ready,
+body.abisso-editor #toast {
+  background: #050505;
+  border: 2px solid #8e9095;
+  color: #b9babc;
+}
+
+body.abisso-editor #toast {
+  top: 64px;
+  bottom: auto;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+}
+
+body.abisso-editor #share-ready,
+body.abisso-editor #download-ready {
+  gap: 16px;
+  padding: 12px 16px;
+  white-space: normal;
+}
+
+body.abisso-editor #share-link,
+body.abisso-editor #download-link {
+  --corner-length: 8px;
+  padding: 8px 12px;
+}
+
+body.abisso-editor #dismiss-share,
+body.abisso-editor #dismiss-download {
+  --corner-length: 6px;
+  padding: 4px 9px;
+}
+
+body.abisso-editor .saved-row {
+  gap: 12px;
+  padding: 8px 0;
+}
+
+@media (max-width: 650px) {
+  body.abisso-editor #inspector {
+    width: min(330px, 92vw);
+  }
+
+  body.abisso-editor .bottom-bar {
+    gap: 10px;
+    max-width: calc(100vw - 24px);
+  }
+
+  body.abisso-editor .bottom-bar button {
+    min-width: 38px;
+    padding: 10px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  body.abisso-editor .bottom-bar button:first-child {
+    min-width: 94px;
+  }
+
+  body.abisso-editor .bottom-bar button:nth-child(2) {
+    min-width: 65px;
+  }
+
+  body.abisso-editor #tank-tools {
+    gap: 10px;
+    bottom: 78px;
+    max-width: calc(100vw - 24px);
+  }
+
+  body.abisso-editor #tank-tools button {
+    padding: 8px;
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  body.abisso-editor #share-ready {
+    max-width: calc(100vw - 24px);
+    bottom: 124px;
+    font-size: 8px;
+  }
+}
+body.abisso-editor #back {
+  position: fixed;
+}
+
+@media (min-width: 900px) {
+  body.abisso-editor:has(#inspector:not([hidden])) #aquarium-stage {
+    right: 330px;
+  }
+
+  body.abisso-editor:has(#inspector:not([hidden])) .bottom-bar,
+  body.abisso-editor:has(#inspector:not([hidden])) #tank-tools,
+  body.abisso-editor:has(#inspector:not([hidden])) #toast,
+  body.abisso-editor:has(#inspector:not([hidden])) .mode-hint {
+    left: calc((100% - 330px) / 2);
+  }
+}
+@media (max-width: 360px) {
+  body.abisso-editor .bottom-bar {
+    gap: 8px;
+  }
+
+  body.abisso-editor .bottom-bar button {
+    min-width: 34px;
+    padding: 8px;
+  }
+
+  body.abisso-editor .bottom-bar button:first-child {
+    min-width: 84px;
+  }
+
+  body.abisso-editor .bottom-bar button:nth-child(2) {
+    min-width: 58px;
+  }
+}
+
+body.abisso-editor button::before,
+body.abisso-editor #download-link::before,
+body.abisso-editor #share-link::before {
+  display: none;
+}
+
+body.abisso-editor button,
+body.abisso-editor #download-link,
+body.abisso-editor #share-link {
+  transition:
+    border-color 150ms,
+    background-color 150ms,
+    color 150ms;
+}
+
+body.abisso-editor button:hover,
+body.abisso-editor button.primary:hover {
+  border-color: #b9babc;
+  background: #111215;
+  color: #ededeb;
+}
+
+body.abisso-editor button.primary {
+  border-color: #b9babc;
+  color: #e5e5e1;
+}
+
+body.abisso-editor button[aria-pressed='true'] {
+  border-color: #b9babc;
+  background: #1a1b1e;
+  color: #efefeb;
+}
+
+body.abisso-editor button:focus-visible {
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.abisso-editor button,
+  body.abisso-editor #download-link,
+  body.abisso-editor #share-link {
+    transition: none;
+  }
+}
+
+body.abisso-editor .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 0;
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+
+body.abisso-editor .panel-heading button {
+  padding: 4px 10px;
+  font-size: 16px;
+}
+
+body.abisso-editor .name-field {
+  display: grid;
+  gap: 9px;
+  font-size: 10px;
+  color: #91959a;
+}
+
+body.abisso-editor .name-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  font-size: 11px;
+}
+
+body.abisso-editor .quick-controls > .button-row {
+  margin-bottom: 18px;
+}
+
+body.abisso-editor .button-row {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+body.abisso-editor .button-row button {
+  flex: 1 1 auto;
+  min-width: 0;
+  letter-spacing: 0.7px;
+  padding: 8px 6px;
+  font-size: 9px;
+}
+
+body.abisso-editor .collection-section {
+  padding: 0;
+}
+
+body.abisso-editor #tank-remove {
+  color: #c2a4a4;
+}
+
+body.abisso-editor #menu-toggle {
+  min-width: 105px;
+}
+
+@media (max-width: 650px) {
+  body.abisso-editor #bottom-bar {
+    gap: 8px;
+  }
+
+  body.abisso-editor #menu-toggle {
+    min-width: 95px;
+    letter-spacing: 1px;
+  }
+
+  body.abisso-editor #inspector {
+    width: min(330px, 100vw);
+  }
+} 
+
+.editor-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #27272b;
+}
+
+body.abisso-editor .editor-tabs button {
+  padding: 10px 4px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.resident-field {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #27272b;
+  color: #92969c;
+  font-size: 10px;
+}
+
+.resident-field select {
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+}
+
+.editor-panel > .gene-fields {
+  display: grid;
+  gap: 14px;
+  padding-top: 20px !important;
+}
+
+.editor-panel #word-form {
+  display: grid;
+  gap: 12px;
+}
+
+.section-divider {
+  height: 1px;
+  background: #303034;
+  margin: 8px 0;
+}
+
+body.abisso-editor .bottom-bar #menu-toggle {
+  min-width: 140px;
+}
+
+body.abisso-editor #tank-tools {
+  bottom: 78px;
+}
+
+body.abisso-editor .editor-panel .quick-controls .micro {
+  color: #777d83;
+}
