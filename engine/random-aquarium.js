@@ -1,8 +1,7 @@
 import { aquarium, fishGene, hash, rng, SPECIES, sanitize } from './genes.js';
 import { THEMES, FORMATS, DECORATIONS, aquariumCapacity } from './ecology.js';
 
-export function randomAquarium(seed, { inhabitant = null, count = null } = {}) {
-
+export function randomAquarium(seed, { inhabitant = null, count = null, inspiration = null } = {}) {
   const r = rng(hash(String(seed) + ':habitat')),
     pick = (values) => values[Math.floor(r() * values.length)];
 
@@ -21,16 +20,14 @@ export function randomAquarium(seed, { inhabitant = null, count = null } = {}) {
     decoration: pick(Object.keys(DECORATIONS)),
     plants: 0.15 + r() * 0.8,
     waterColor: pick(palettes[theme]),
+    ...inspiration?.environment,
   };
 
   const capacity = aquariumCapacity(state.environment.format),
     minimum = Math.ceil(capacity * 0.65);
   const population = Math.max(
     1,
-    Math.min(
-      capacity,
-      count ?? (inhabitant ? 1 : minimum + Math.floor(r() * (capacity - minimum + 1))),
-    ),
+    Math.min(capacity, count ?? minimum + Math.floor(r() * (capacity - minimum + 1))),
   );
 
   state.night = r() < (theme === 'abyss' ? 0.8 : 0.4);
@@ -44,6 +41,15 @@ export function randomAquarium(seed, { inhabitant = null, count = null } = {}) {
       : fishGene(String(seed) + ':residents', firstId + i, pick(species)),
   );
   state.nextId = Math.max(...state.fish.map((f) => f.id)) + 1;
-  
+
+  if (inspiration?.palette?.length) {
+    const palette = inspiration.palette;
+    state.fish.forEach((fish, i) => {
+      fish.color = palette[i % palette.length];
+      fish.accent = palette[(i + 1) % palette.length];
+      fish.effect = 'natural';
+    });
+  }
+
   return sanitize(state);
 }

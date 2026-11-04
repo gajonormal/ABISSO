@@ -1,84 +1,112 @@
-# Abisso
+<p align="center">
+  <img src="assets/favicon.svg" alt="" width="64" height="64" align="middle" />
+  &nbsp;&nbsp;
+  <img src="assets/abisso.svg" alt="Abisso" width="260" height="70" align="middle" />
+</p>
 
-Aplicação de vida marinha procedural em Three.js, com uma landing page e um editor de aquários na mesma base de código.
+<p align="center">
+  <strong>A small underwater environment</strong><br />
+  Procedural marine life generation.
+</p>
 
-## Executar
+**Abisso** is an interactive experience for creating, watching, and customizing digital aquariums. A word, an image, or a random discovery becomes an aquarium filled with different creatures, each with its own textures, shapes, and behaviors.
 
-Requer Node.js 22 ou superior. A aplicação não precisa de build nem de dependências de execução: o Three.js está incluído em `engine/vendor/`, com a respetiva licença.
+From fish to other creatures, every aquarium brings together inhabitants, plants, and decorations in a scene you can explore, reshape, and share.
+
+<p align="center">
+  <img src="assets/aquarium-preview.png" alt="An Abisso aquarium on a transparent background: fish and other creatures swim among corals, plants, and rocks inside a panoramic 3D tank." width="900" />
+  <br />
+  <sub>Aquarium generated with the seed <code>recife</code></sub>
+</p>
+
+## One starting point, a whole aquarium
+
+| Starting point | What happens                                                                                                                 |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Text**       | Words guide a shared color palette and, when recognized by local rules, the environment. Try `forest`, `abyss`, or `sunset`. |
+| **Image**      | Dominant colors are distributed across all creatures and guide the water, habitat, decorations, and vegetation.              |
+| **Random**     | A random seed creates a new combination of inhabitants and scenery.                                                          |
+
+Generation is **procedural and local, without generative AI**. Text uses seeds and keyword rules; images provide colors and a visual signature, without object recognition. The same input produces the same initial aquarium. Images used for generation stay on your device.
+
+## Discover, observe, and customize
+
+- **22 available species**, with variations in anatomy, patterns, fins, eyes, finishes, and mutations.
+- **Three environments** - tropical reef, abyss, and gardens on classic, panoramic, or vertical tanks.
+- **Populated aquariums**, with the number of inhabitants adjusted to the chosen tank's capacity.
+- **Life in motion:** creatures with individual behaviors, feeding, growth, animated plants, and drifting particles.
+- **Creature and aquarium customization**, organized into **Creature**, **Aquarium**, **Create**, and **Save & Share**.
+- **3D exploration:** drag to rotate, scroll to zoom, and click a creature to edit it.
+- **Save and share:** export PNG images, save or import JSON data, keep a local collection, and share an aquarium through a link.
+
+## Run locally
+
+ **Node.js 22 or later** needed and a browser with WebGL support. There is no build step; Three.js is already included in the repository.
 
 ```sh
+git clone https://github.com/gajonormal/ABISSOapp.git
+cd ABISSOapp
 npm start
 ```
 
-Abrir <http://127.0.0.1:4200/>. Para escolher outra porta em PowerShell:
+Open [localhost:4200](http://127.0.0.1:4200/).
+
+To choose a different port in PowerShell:
 
 ```powershell
 $env:PORT = '4201'
 npm start
 ```
 
-## Experiência atual
+## How it is built
 
-- A landing inclui estrelas, aurora ocasional, cardume e o cenário submarino que acompanha o scroll.
-- Uma palavra, uma imagem ou **find a stranger** gera uma criatura e abre o aquário com **Customize** fechado.
-- O editor organiza a personalização em **Creature**, **Aquarium**, **Create** e **Save & Share**.
-- **Random** gera outro aquário com uma transição suave; **Feed**, pausa, rotação e zoom controlam a observação.
-- Os aquários mantêm a estética pixelizada e iluminação noturna. A vegetação respeita os limites do vidro e o espaço das pedras.
-- Criaturas, aquários e coleções podem ser guardados ou importados; o endereço preserva os dados para partilha.
-- A assinatura de Bernardo Maia e as contribuições GitHub continuam no fundo da landing.
+Abisso uses **JavaScript, HTML, and CSS**, with **Three.js** for 3D rendering and shaders. The engine generates creature anatomy, environments, and movement from seeds.
 
-As cores da fotografia e a seed são extraídas localmente no navegador. A imagem não é enviada para um servidor nem analisada por IA.
+The site does not need a backend to generate aquariums. Collections are stored in the browser's `localStorage`; JSON files let you move them between devices, and sharing links include the aquarium state in the URL.
 
-Os formatos JSON e a chave local `mare.collection.v1` são mantidos para continuar a abrir os dados existentes. URLs antigos de modos do editor são encaminhados para o aquário atual.
+| Location                                  | Responsibility                                                |
+| ----------------------------------------- | ------------------------------------------------------------- |
+| `index.html`, `abisso.js`, `abisso.css`   | Landing page and aquarium generation entry points.            |
+| `environment.js`, `landing-boot.js`       | Underwater scenery and experience loading.                    |
+| `engine/`                                 | Editor, genetics, anatomy, movement, habitats, and rendering. |
+| `engine/inspiration.js`                   | Image color palettes and text inspiration rules.              |
+| `cursor.js`, `cursor.css`, `controls.css` | Animated cursor and shared controls.                          |
+| `assets/`                                 | Visual identity, aquarium preview, and contribution map.      |
+| `scripts/`                                | Project checks and asset generation.                          |
+| `server.mjs`                              | Static server for local development.                          |
 
-## Organização
+## Development
 
-- `index.html`, `abisso.js`, `abisso.css`: landing e criação de criaturas.
-- `landing-boot.js`: preparação das cenas e saída do carregamento.
-- `environment.js`, `environment.css`, `fishing-scrollbar.js`: ambiente e navegação por scroll.
-- `controls.css`: controlos partilhados e botões de quatro cantos.
-- `engine/index.html`, `engine/sheet.js`, `engine/sheet.css`, `engine/editor-theme.css`: editor atual.
-- `engine/tank.js`: renderização e interação com o aquário.
-- Restantes módulos de `engine/`: geração, anatomia, movimento, habitats e persistência.
-- `assets/`: logótipos e imagem de contribuições.
-- `tests/`: testes de genética, anatomia, movimento, limites da decoração, partilha e regressões.
-- `scripts/`: verificação do projeto e geração de recursos.
-- `server.mjs`: servidor estático de desenvolvimento.
-
-## Formatação e verificações
-
-Instalar as ferramentas de desenvolvimento:
+Development tools are optional for running the site. To install them:
 
 ```sh
 npm ci
 ```
 
-```sh
-npm run format
-npm run check
-npm test
-```
+| Command                | Purpose                                                                |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `npm start`            | Start the local server.                                                |
+| `npm run check`        | Check syntax, local references, HTML IDs, formatting, and unused code. |
+| `npm run check:unused` | Analyze production files, exports, and references with Knip.           |
+| `npm run format:check` | Check the style defined in the Prettier configuration.                 |
+| `npm run format`       | Apply the configured formatting.                                       |
 
-- `format` aplica o Prettier ao código próprio; exclui o Three.js e os recursos gerados.
-- `check` verifica sintaxe JavaScript, referências locais, IDs HTML duplicados, ficheiros do motor sem utilização, formatação e a análise estática do Knip.
-- `check:unused` procura ficheiros, exports e referências sem utilização no código de produção; exclui o Three.js e reconhece funções utilizadas dentro do próprio módulo.
-- `test` descobre automaticamente `tests/test-*.mjs` e executa-os sequencialmente, incluindo todos os testes mesmo quando algum falha.
 
-A configuração de indentação, UTF-8 e finais de linha está em `.editorconfig` e `.prettierrc.json`.
+## Contributing
 
-## Recursos gerados
+Ideas for new creatures, environments, and interactions are welcome. When reporting an issue, include the steps to reproduce it, your browser, and, if possible, the seed or aquarium link. For code changes, describe the expected behavior and the checks you performed.
 
-```sh
-npm run generate:logo
-npm run update:contributions
-```
+<details>
+<summary><strong>Seeds, inspiration, and compatibility</strong></summary>
 
-O primeiro comando recria `assets/abisso.svg`; o segundo atualiza `assets/github-contributions.svg` com as contribuições públicas de gajonormal.
+Text rules recognize Portuguese and English keywords in these groups: abyss/night, forest/garden, reef, ice/blue, sun/fire, and purple/pink. When multiple groups match, their palettes are combined; the first group in this order determines the environment. Other text generates a repeatable palette from its seed.
 
-## Atualização diária das contribuições
+Image generation extracts up to six dominant colors and distributes them across the inhabitants' primary and accent colors. The palette also guides the environment. This process does not recreate the composition or identify the contents of a photograph.
 
-O workflow `.github/workflows/update-contributions.yml` executa o gerador diariamente às **07:23 UTC** e guarda alterações apenas em `assets/github-contributions.svg`. Também pode ser executado manualmente em **Actions → Update contribution map → Run workflow**.
+Existing JSON formats and the local storage key `mare.collection.v1` are preserved. Older editor mode links are redirected to the current aquarium view.
 
-O agendamento só fica ativo depois de publicar o workflow na branch predefinida do GitHub, com Actions permitido. Usa o token automático do repositório; não precisa de um token pessoal nem de dependências npm. Se a recolha falhar, mantém-se a última imagem válida. O site publicado precisa de receber o ficheiro atualizado pelo seu processo de deploy; a geração do SVG não substitui esse deploy. Os horários do GitHub Actions podem sofrer atrasos.
+</details>
 
-A nova logo de separador está em `assets/favicon.svg`, partilhada pela landing e pelo editor; o logótipo escrito da página mantém-se em `assets/abisso.svg`.
+---
+
+Created by [**Bernardo Maia**](https://github.com/gajonormal). Rendered with [Three.js](https://threejs.org/), included under its [MIT license](engine/vendor/THREE-LICENSE.txt).

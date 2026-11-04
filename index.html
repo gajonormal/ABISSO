@@ -4,14 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
-    <meta
-      name="description"
-      content="ABISSO"
-    />
+    <meta name="description" content="ABISSO" />
     <title>ABISSO</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <style>
-      
       html {
         background: #050505;
       }
@@ -101,7 +97,6 @@
           animation: none;
         }
       }
-
     </style>
     <script>
       document.documentElement.setAttribute('data-scene-loading', '');
@@ -125,6 +120,7 @@
     <link rel="stylesheet" href="environment.css" />
     <link rel="stylesheet" href="controls.css" />
     <link rel="stylesheet" href="abisso.css" />
+    <link rel="stylesheet" href="cursor.css" />
   </head>
   <body class="abisso-page" id="page">
     <div
@@ -179,7 +175,7 @@
               class="image-summon"
               id="image-summon"
               type="button"
-              aria-label="Generate a creature from an image"
+              aria-label="Generate an aquarium from an image"
             >
               <span class="scanner-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
               <svg
@@ -215,7 +211,7 @@
                 CREATE <span aria-hidden="true">↗</span>
               </button>
             </div>
-            <button class="random-summon" id="random-summon" type="button">find a stranger</button>
+            <button class="random-summon" id="random-summon" type="button">random</button>
             <p id="creation-status" class="creation-status" role="status"></p>
           </form>
         </div>

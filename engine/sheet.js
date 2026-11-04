@@ -1,3 +1,4 @@
+import '../cursor.js';
 import { editorRoute } from './editor-route.js';
 import {
   SPECIES,
