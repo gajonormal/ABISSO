@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../controls.css" />
     <link rel="stylesheet" href="editor-theme.css" />
     <link rel="stylesheet" href="../cursor.css" />
+    <link rel="stylesheet" href="widget.css" />
   </head>
   <body class="abisso-editor" data-view="aquarium">
     <div
@@ -93,6 +94,7 @@
           >
             COPY SHARE LINK</button
           ><button id="tank-picture">SAVE AQUARIUM IMAGE</button>
+          <button id="export-widget">EXPORT WIDGET</button>
         </div>
         <details class="gene-section collection-section">
           <summary>COLLECTION <span id="saved-count">0</span></summary>
@@ -129,6 +131,34 @@
         ><button id="load-json" class="primary">LOAD</button>
       </div>
       <p class="micro">Paste an ABISSO creature or aquarium JSON to load it.</p>
+    </dialog>
+    <dialog id="widget-dialog">
+      <div class="dialog-top">
+        <strong>AQUARIUM WIDGET</strong><button data-close aria-label="Close widget export">×</button>
+      </div>
+      <p class="micro">Save a standalone aquarium for your website. No Abisso connection is needed after download.</p>
+      <div class="widget-options">
+        <label for="widget-mode">Aquarium
+          <select id="widget-mode">
+            <option value="current">Keep this aquarium</option>
+            <option value="random">Random on every load</option>
+          </select>
+        </label>
+        <label><input id="widget-transparent" type="checkbox" checked /> Transparent background</label>
+        <label><input id="widget-rotation" type="checkbox" checked /> Allow rotation</label>
+        <label><input id="widget-zoom" type="checkbox" checked /> Allow zoom</label>
+      </div>
+      <div class="widget-preview">
+        <iframe id="widget-preview" title="Aquarium widget preview" sandbox="allow-scripts"></iframe>
+      </div>
+      <p id="widget-status" class="micro" role="status" aria-live="polite"></p>
+      <label for="widget-embed">Embed on your website</label>
+      <textarea id="widget-embed" readonly spellcheck="false" aria-label="Widget embed code"></textarea>
+      <p class="micro">Upload abisso-widget.html to your website, then paste this code into your page. Change the file path and height as needed.</p>
+      <div class="button-row">
+        <button id="widget-copy">COPY EMBED CODE</button>
+        <button id="widget-download" disabled>DOWNLOAD WIDGET</button>
+      </div>
     </dialog>
     <div id="download-ready" hidden>
       <a id="download-link" download>DOWNLOAD FILE ↓</a

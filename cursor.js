@@ -22,6 +22,8 @@ let x = 0, y = 0, frame = 0, visible = false, pressed = false;
 function paint() {
     frame = 0;
     if (!visible) return;
+    const host = document.querySelector('dialog[open]') || document.body;
+    if (cursor.parentElement !== host) host.append(cursor);
     cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     const target = document.elementFromPoint(x, y)?.closest(interactive);
     const actionable = target && !target.matches(':disabled, [aria-disabled="true"]')
@@ -42,7 +44,7 @@ function hide() {
 }
 
 function trackPointer(event) {
-    if (event.pointerType !== 'mouse' || !finePointer.matches) {
+    if (event.pointerType !== 'mouse' || !finePointer.matches || event.target instanceof HTMLIFrameElement) {
         hide();
         return;
     }
@@ -75,6 +77,7 @@ window.addEventListener('pointerup', () => {
     schedulePaint();
 }, { passive: true });
 document.addEventListener('scroll', schedulePaint, { capture: true, passive: true });
+document.addEventListener('close', schedulePaint, true);
 document.documentElement.addEventListener('pointerleave', hide);
 window.addEventListener('pointercancel', hide);
 window.addEventListener('blur', hide);

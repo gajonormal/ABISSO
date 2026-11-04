@@ -6,6 +6,7 @@ uniform vec2 uPixel;
 uniform float uBloom;
 uniform float uPhoto;
 uniform float uFocus;
+uniform float uTransparent;
 varying vec2 vUv;
 
 vec3 bright(vec2 p) {
@@ -38,6 +39,7 @@ void main() {
   }
 
   color += glow * uBloom;
-  gl_FragColor = vec4(pow(max(color, vec3(0.)), vec3(1. / 2.2)), 1.);
+  float alpha = mix(1., texture2D(uScene, vUv).a, uTransparent);
+  gl_FragColor = vec4(pow(max(color, vec3(0.)), vec3(1. / 2.2)), alpha);
 }
 `;

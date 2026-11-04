@@ -39,9 +39,29 @@ Generation is **procedural and local, without generative AI**. Text uses seeds a
 - **3D exploration:** drag to rotate, scroll to zoom, and click a creature to edit it.
 - **Save and share:** export PNG images, save or import JSON data, keep a local collection, and share an aquarium through a link.
 
+## Export an aquarium widget
+
+Open **Customize → Save & Share → Export widget** to save an aquarium as a standalone HTML file. Choose **Keep this aquarium** to preserve its creatures and environment, or **Random on every load** for a different aquarium each time it opens. The background can be transparent. **Allow rotation** and **Allow zoom** are independent options: enable both, either one, or neither. A live preview shows the result.
+
+The downloaded `abisso-widget.html` includes the aquarium data, rendering engine, and Three.js license. It needs no connection to Abisso, external libraries, or backend after download. It runs in a modern browser with JavaScript and WebGL support.
+
+Upload the file to your own website and paste the embed code provided by the exporter. For example:
+
+```html
+<iframe
+  src="abisso-widget.html"
+  title="Abisso aquarium"
+  loading="lazy"
+  sandbox="allow-scripts"
+  style="display:block;width:100%;height:420px;border:0;background:transparent"
+></iframe>
+```
+
+Adjust the file path and height for your page. The host site must allow [iframe embeds](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe) and the widget's scripts; platforms that strip custom HTML cannot display it. The widget contains no editor menus or collection storage and suspends rendering while hidden or outside the viewport.
+
 ## Run locally
 
- **Node.js 22 or later** needed and a browser with WebGL support. There is no build step; Three.js is already included in the repository.
+**Node.js 22 or later** needed and a browser with WebGL support. There is no build step; Three.js is already included in the repository.
 
 ```sh
 git clone https://github.com/gajonormal/ABISSOapp.git
@@ -90,7 +110,6 @@ npm ci
 | `npm run check:unused` | Analyze production files, exports, and references with Knip.           |
 | `npm run format:check` | Check the style defined in the Prettier configuration.                 |
 | `npm run format`       | Apply the configured formatting.                                       |
-
 
 ## Contributing
 

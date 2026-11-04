@@ -28,6 +28,7 @@ import { specimen, encodeSpecimen, decodeSpecimen } from './specimens.js';
 import { sanitizeCollection } from './collection.js';
 import { AquariumViewer } from './tank.js';
 import { randomAquarium } from './random-aquarium.js';
+import { createWidgetHTML, widgetEmbed } from './widget-export.js';
 import { THEMES, FORMATS, DECORATIONS, aquariumCapacity } from './ecology.js';
 
 const $ = (id) => document.getElementById(id),
@@ -792,6 +793,52 @@ function saveCollection() {
 }
 
 let exportURL = null;
+
+let widgetDocument = null;
+let widgetRevision = 0;
+
+async function prepareWidget() {
+  const revision = ++widgetRevision;
+  widgetDocument = null;
+  $('widget-download').disabled = true;
+  $('widget-status').textContent = 'Preparing your aquarium…';
+  $('widget-preview').removeAttribute('srcdoc');
+  try {
+    const html = await createWidgetHTML(structuredClone(tankState), {
+      random: $('widget-mode').value === 'random',
+      transparent: $('widget-transparent').checked,
+      rotation: $('widget-rotation').checked,
+      zoom: $('widget-zoom').checked,
+    });
+    if (revision !== widgetRevision || !$('widget-dialog').open) return;
+    widgetDocument = html;
+    $('widget-preview').srcdoc = html;
+    $('widget-download').disabled = false;
+    const size = (new Blob([html]).size / 1048576).toFixed(1);
+    $('widget-status').textContent = `Ready · ${size} MB · self-contained HTML`;
+  } catch (error) {
+    if (revision === widgetRevision) $('widget-status').textContent = error.message;
+  }
+}
+
+$('export-widget').onclick = () => {
+  $('widget-embed').value = widgetEmbed();
+  $('widget-dialog').showModal();
+  prepareWidget();
+};
+['widget-mode', 'widget-transparent', 'widget-rotation', 'widget-zoom'].forEach((id) => {
+  $(id).addEventListener('change', prepareWidget);
+});
+$('widget-copy').onclick = () => copy($('widget-embed').value);
+$('widget-download').onclick = () => {
+  if (!widgetDocument) return;
+  download(URL.createObjectURL(new Blob([widgetDocument], { type: 'text/html' })), 'abisso-widget.html');
+};
+$('widget-dialog').addEventListener('close', () => {
+  widgetRevision++;
+  widgetDocument = null;
+  $('widget-preview').removeAttribute('srcdoc');
+});
 
 function download(url, name) {
 

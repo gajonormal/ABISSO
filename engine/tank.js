@@ -9,8 +9,11 @@ import { postFragment } from './optics.js';
 const WATER = 3.7;
 
 export class AquariumViewer {
-  constructor(container, onSelect) {
+  constructor(container, onSelect, { transparent = false, allowRotation = true, allowZoom = true } = {}) {
     this.container = container;
+    this.transparent = transparent;
+    this.allowRotation = allowRotation;
+    this.allowZoom = allowZoom;
     this.onSelect = onSelect;
     this.scene = new T.Scene();
     this.camera = new T.OrthographicCamera(-6, 6, 4.5, -4.5, 0.1, 80);
@@ -19,11 +22,12 @@ export class AquariumViewer {
     this.renderer = new T.WebGLRenderer({
       antialias: false,
       preserveDrawingBuffer: true,
-      alpha: false,
+      alpha: transparent,
     });
 
     this.renderer.setPixelRatio(1);
     this.renderer.outputColorSpace = T.LinearSRGBColorSpace;
+    if (transparent) this.renderer.setClearColor(0x000000, 0);
     container.append(this.renderer.domElement);
 
     this.target = new T.WebGLRenderTarget(320, 240, {
@@ -51,6 +55,7 @@ export class AquariumViewer {
         uDepth: { value: this.target.depthTexture },
         uPhoto: { value: 0 },
         uFocus: { value: 0.2 },
+        uTransparent: { value: transparent ? 1 : 0 },
         uSubject: { value: this.subjectTarget.texture },
       },
       vertexShader: `
@@ -102,6 +107,7 @@ export class AquariumViewer {
     container.addEventListener(
       'wheel',
       (event) => {
+        if (!this.allowZoom) return;
         event.preventDefault();
         const units =
           event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? container.clientHeight : 1;
@@ -133,7 +139,7 @@ export class AquariumViewer {
         this.cursorWorldPos = hitWorld;
       }
 
-      if (!drag || event.buttons !== 1) return;
+      if (!this.allowRotation || !drag || event.buttons !== 1) return;
       this.yaw -= (event.clientX - drag.x) * 0.008;
       this.pitch = T.MathUtils.clamp(this.pitch + (event.clientY - drag.y) * 0.004, 0.12, 1);
       drag.x = event.clientX;
@@ -177,7 +183,7 @@ export class AquariumViewer {
         )[0];
 
         if (hit) {
-          this.onSelect(hit.object.userData.fishId);
+          this.onSelect?.(hit.object.userData.fishId);
         } else {
 
           const hitPos = new T.Vector3();
@@ -746,7 +752,7 @@ export class AquariumViewer {
     const time = this.time;
 
     const darkness = 1;
-    this.scene.background = this.backdrop
+    this.scene.background = this.transparent ? null : this.backdrop
       ? new T.Color(this.backdrop)
       : new T.Color(
           this.config.theme === 'abyss'

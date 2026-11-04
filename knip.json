@@ -4,6 +4,7 @@
     "abisso.js!",
     "environment.js!",
     "engine/sheet.js!",
+    "engine/widget-runtime.js!",
     "server.mjs!",
     "scripts/*.mjs!"
   ],

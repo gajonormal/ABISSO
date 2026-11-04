@@ -37,6 +37,7 @@ for (const file of sourceFiles) {
     for (const pattern of [
       /\b(?:import|export)\s+(?:[^;'"()]*?\s+from\s*)?['"]([^'"]+)['"]/g,
       /\bimport\(\s*['"]([^'"]+)['"]\s*\)/g,
+      /\bnew URL\(\s*['"]([^'"]+)['"]\s*,\s*import\.meta\.url\s*\)/g,
     ])
 
       for (const match of source.matchAll(pattern))
@@ -65,7 +66,7 @@ for (const file of sourceFiles) {
       ? path.join(root, pathname)
       : path.resolve(path.dirname(file), pathname);
 
-    if (pathname.endsWith('/')) target = path.join(target, 'index.html');
+    if (pathname.endsWith('/') && file.endsWith('.html')) target = path.join(target, 'index.html');
     try {
       await access(target);
     } catch {
