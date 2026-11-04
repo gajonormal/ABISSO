@@ -99,7 +99,7 @@ The site does not need a backend to generate aquariums. Collections are stored i
 
 ## Publishing
 
-The public site is hosted at **[gajonormal.github.io/ABISSO](https://gajonormal.github.io/ABISSO/)** using GitHub Pages. The repository remains private; visitors can access the website without a GitHub account.
+The public site is hosted at **[gajonormal.github.io/ABISSO](https://gajonormal.github.io/ABISSO/)** using GitHub Pages. Visitors can access the website without a GitHub account.
 
 Pushing to `main` automatically runs the [deployment workflow](.github/workflows/deploy-pages.yml). Successful contribution-map updates also trigger a fresh deployment. Publication can be started manually from **Actions → Deploy site to GitHub Pages → Run workflow**.
 
