@@ -19,7 +19,7 @@ From fish to other creatures, every aquarium brings together inhabitants, plants
   <sub>Aquarium generated with the seed <code>recife</code></sub>
 </p>
 
-[Explore Abisso online ↗](https://gajonormal.github.io/ABISSO/)
+[Explore Abisso online ↗](https://abisso.bmaia.me/)
 
 ## One starting point, a whole aquarium
 
